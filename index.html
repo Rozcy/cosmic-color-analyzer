@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Color Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cosmic Color Analyzer</h1>
+        <label for="fileInput" class="file-label">Choose an image</label>
+        <input type="file" id="fileInput" accept="image/*">
+        <img id="imagePreview" src="#" alt="Image preview" style="display: none; max-width: 100%; margin-top: 1rem;">
+        <button id="uploadButton" style="display: none;">Upload Image</button>
+        <button id="analyzeButton" disabled>Analyze Colors</button>
+        <div id="progress"><div id="progressBar"></div></div>
+        <div id="results"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
