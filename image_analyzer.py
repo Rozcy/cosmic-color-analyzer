@@ -11,7 +11,7 @@ BYTES_PER_PIXEL_RGB = 3
 BYTES_PER_PIXEL_RGBA = 4
 
 def analyze_image_colors(image_data: bytes) -> List[Dict[str, str]]:
-    """Analyze the colors in the given image data."""
+    """Analyzes the colors in the given image data."""
     image_type = detect_image_type(image_data)
     if image_type == 'unknown':
         print("Error: Unknown image type")
@@ -27,7 +27,7 @@ def analyze_image_colors(image_data: bytes) -> List[Dict[str, str]]:
     return analyze_colors(pixels)
 
 def detect_image_type(data: bytes) -> str:
-    """Detect the type of image based on its signature bytes."""
+    """Detects the type of image based on its signature bytes."""
     if data.startswith(PNG_SIGNATURE):
         return 'png'
     elif data.startswith(JPEG_SIGNATURE):
@@ -35,7 +35,7 @@ def detect_image_type(data: bytes) -> str:
     return 'unknown'
 
 def parse_image(data: bytes, image_type: str) -> Optional[List[Tuple[int, int, int]]]:
-    """Parse the image data based on its type."""
+    """Parses the image data based on its type."""
     if image_type == 'png':
         return parse_png(data)
     elif image_type == 'jpeg':
@@ -45,7 +45,7 @@ def parse_image(data: bytes, image_type: str) -> Optional[List[Tuple[int, int, i
         return None
 
 def parse_png(data: bytes) -> Optional[List[Tuple[int, int, int]]]:
-    """Parse PNG image data."""
+    """Parses PNG image data."""
     try:
         chunks = parse_png_chunks(data)
         ihdr_data = chunks.get('IHDR')
@@ -70,7 +70,7 @@ def parse_png(data: bytes) -> Optional[List[Tuple[int, int, int]]]:
         return None
 
 def parse_png_chunks(data: bytes) -> Dict[str, List[bytes]]:
-    """Parse PNG chunks to extract IHDR and IDAT data."""
+    """Parses PNG chunks to extract IHDR and IDAT data."""
     chunks = {}
     chunk_start = 8  # Start after PNG signature
 
@@ -88,7 +88,7 @@ def parse_png_chunks(data: bytes) -> Dict[str, List[bytes]]:
     return chunks
 
 def read_chunk(data: bytes, start: int) -> Tuple[str, bytes, int]:
-    """Read a single PNG chunk."""
+    """Reads a single PNG chunk."""
     if start + 8 > len(data):
         raise ValueError(f"Unexpected end of file at position {start}")
     
@@ -103,7 +103,7 @@ def read_chunk(data: bytes, start: int) -> Tuple[str, bytes, int]:
     return chunk_type, chunk_data, chunk_end + 4
 
 def parse_ihdr(ihdr_data: bytes) -> Tuple[int, int, int, int]:
-    """Parse the IHDR chunk of a PNG image."""
+    """Parses the IHDR chunk of a PNG image."""
     print("Parsing IHDR data...")
     print(f"IHDR data length: {len(ihdr_data)}")
     print(f"IHDR data: {ihdr_data}")
@@ -126,7 +126,7 @@ def parse_ihdr(ihdr_data: bytes) -> Tuple[int, int, int, int]:
     return width, height, bit_depth, color_type
 
 def process_pixel_data(data: bytes, width: int, height: int, color_type: int) -> List[Tuple[int, int, int]]:
-    """Process the decompressed pixel data of a PNG image."""
+    """Processes the decompressed pixel data of a PNG image."""
     bytes_per_pixel = BYTES_PER_PIXEL_RGBA if color_type == 6 else BYTES_PER_PIXEL_RGB
     stride = width * bytes_per_pixel + 1  # bytes per pixel + 1 byte for filter type
     pixels = []
@@ -147,7 +147,7 @@ def process_pixel_data(data: bytes, width: int, height: int, color_type: int) ->
     return pixels
 
 def unfilter(filter_type: int, current: List[int], previous: Optional[List[int]], bytes_per_pixel: int) -> List[int]:
-    """Apply reverse filtering to a scanline of PNG image data."""
+    """Applys reverse filtering to a scanline of PNG image data."""
     result = []
     for i in range(len(current)):
     
@@ -171,7 +171,7 @@ def unfilter(filter_type: int, current: List[int], previous: Optional[List[int]]
     return result
 
 def paeth_predictor(a: int, b: int, c: int) -> int:
-    """Implement the Paeth predictor function for PNG filtering."""
+    """Paeth predictor function for PNG filtering."""
     p = a + b - c
     pa = abs(p - a)
     pb = abs(p - b)
@@ -184,7 +184,7 @@ def paeth_predictor(a: int, b: int, c: int) -> int:
         return c
 
 def parse_jpeg(data: bytes) -> Optional[List[Tuple[int, int, int]]]:
-    """Parse JPEG image data using PIL."""
+    """Parses JPEG image data using PIL."""
     try:
         with Image.open(io.BytesIO(data)) as img:
             if img.mode != 'RGB':
@@ -197,7 +197,7 @@ def parse_jpeg(data: bytes) -> Optional[List[Tuple[int, int, int]]]:
         return None
 
 def analyze_colors(pixels: List[Tuple[int, int, int]]) -> List[Dict[str, str]]:
-    """Analyze the colors in the given pixel data."""
+    """Analyzes the colors in the given pixel data."""
     color_count = {}
     total_pixels = len(pixels)
 

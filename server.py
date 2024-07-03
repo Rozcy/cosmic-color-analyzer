@@ -36,7 +36,7 @@ class ImageAnalyzerHandler(BaseHTTPRequestHandler):
         super().__init__(*args, **kwargs)
 
     def do_GET(self):
-        """Handle GET requests."""
+        """Handles GET requests."""
         if self.path == '/' or self.path == '/index.html':
             self.serve_file('index.html', MIME_HTML)
         elif self.path == '/styles.css':
@@ -49,14 +49,14 @@ class ImageAnalyzerHandler(BaseHTTPRequestHandler):
             self.send_error(HTTP_NOT_FOUND, "File not found")
 
     def do_POST(self):
-        """Handle POST requests."""
+        """Handles POST requests."""
         if self.path == '/upload':
             self.handle_upload_request()
         else:
             self.send_error(HTTP_NOT_FOUND, "Endpoint not found")
 
     def serve_file(self, filename: str, content_type: str):
-        """Serve a static file."""
+        """Serves a static file."""
         try:
             with open(filename, 'rb') as file:
                 content = file.read()
@@ -68,7 +68,7 @@ class ImageAnalyzerHandler(BaseHTTPRequestHandler):
             self.send_error(HTTP_NOT_FOUND, "File not found")
 
     def handle_analyze_request(self):
-        """Handle the /analyze endpoint."""
+        """Handles the /analyze endpoint."""
         if ImageAnalyzerHandler.last_uploaded_image:
             colors = analyze_image_colors(ImageAnalyzerHandler.last_uploaded_image)
             response_data = '{"colors":' + str(colors).replace("'", '"') + '}'
@@ -81,7 +81,7 @@ class ImageAnalyzerHandler(BaseHTTPRequestHandler):
             self.send_error(HTTP_BAD_REQUEST, "No image uploaded yet")
 
     def handle_upload_request(self):
-        """Handle the /upload endpoint."""
+        """Handles the /upload endpoint."""
         content_type = self.headers.get('Content-Type', '')
         if content_type.startswith('multipart/form-data'):
             content_length = int(self.headers.get('Content-Length', 0))
@@ -110,7 +110,7 @@ class ImageAnalyzerHandler(BaseHTTPRequestHandler):
             self.send_error(HTTP_BAD_REQUEST, f"Invalid Content-Type: {content_type}")
 
     def handle_chunk_upload(self, filename: str, chunk_number: int, total_chunks: int, file_checksum: str, file_content: bytes):
-        """Handle the upload of a single chunk."""
+        """Handles the upload of a single chunk."""
         temp_file_path = os.path.join(UPLOAD_FOLDER, f"{filename}.part")
         with open(temp_file_path, 'ab') as f:
             f.write(file_content)
@@ -140,7 +140,7 @@ class ImageAnalyzerHandler(BaseHTTPRequestHandler):
             self.wfile.write(f"Chunk {chunk_number + 1}/{total_chunks} received".encode())
 
     def parse_multipart_form_data(self, body: bytes) -> Dict[str, Optional[bytes]]:
-        """Parse multipart form data from request body."""
+        """Parses multipart form data from request body."""
         content_type = self.headers.get('Content-Type', '')
         boundary = content_type.split('boundary=')[1].encode()
         parts = body.split(b'--' + boundary)
@@ -166,12 +166,12 @@ class ImageAnalyzerHandler(BaseHTTPRequestHandler):
         return data
 
     def log_error(self, format, *args):
-        """Override to fix compatibility with base class."""
+        """Overrides to fix compatibility with base class."""
         self.last_error_message = format % args
         print(f"Error: {self.last_error_message}")
 
 def run_server():
-    """Run the HTTP server."""
+    """Runs the HTTP server."""
     server_address = (HOST, PORT)
     httpd = HTTPServer(server_address, ImageAnalyzerHandler)
     print(f"Server running on http://{HOST}:{PORT}")
