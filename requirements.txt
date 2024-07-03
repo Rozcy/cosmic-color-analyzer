@@ -1,0 +1,13 @@
+# Cosmic Color Analyzer Requirements
+
+# Core dependencies
+Pillow==9.5.0  # Python Imaging Library (PIL) fork
+
+# Server dependencies
+# Note: http.server, hashlib, and urllib are part of Python's standard library
+
+# Note: zlib, io, typing, os, and re are part of Python's standard library
+# and don't need to be installed separately
+
+# Client-side dependencies (not installed via pip)
+# CryptoJS is included via CDN in the HTML file

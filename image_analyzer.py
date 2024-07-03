@@ -221,7 +221,3 @@ def analyze_colors(pixels: List[Tuple[int, int, int]]) -> List[Dict[str, str]]:
         })
 
     return results
-
-if __name__ == "__main__":
-    # You can add test code here if needed
-    pass
