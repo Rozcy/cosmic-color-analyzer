@@ -146,7 +146,7 @@ Design decisions:
 1. Ensure you have Python 3.x installed on your system.
 2. Clone this repository:
    ```
-   git clone https://github.com/rozcy/cosmic-color-analyzer.git
+   git clone https://github.com/YegorCherov/cosmic-color-analyzer.git
    cd cosmic-color-analyzer
    ```
 3. Install the required Python packages:
